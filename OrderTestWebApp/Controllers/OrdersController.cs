@@ -20,29 +20,23 @@ namespace OrderTestWebApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrdersController : ControllerBase
     {
         private readonly IOrderService _orderService;
         private readonly IMapper _mapper;
         private readonly ILogger<Order> _logger;
-        private readonly OrderValidator _validator;
-        private readonly OrderValidatorDTO _validatorDTO;
         private readonly OrderInsertValidator _validationRulesForInsert;
         private readonly OrderUpdateValidator _validationRulesForUpdate;
-        public OrderController(
+        public OrdersController(
             IOrderService orderService,
             IMapper mapper,
             ILogger<Order> logger,
-            OrderValidatorDTO validatorDTO,
-            OrderValidator validator,
             OrderInsertValidator validationRulesForInsert,
             OrderUpdateValidator validationRulesForUpdate)
         {
             _mapper = mapper;
             _orderService = orderService;
             _logger = logger;
-            _validatorDTO = validatorDTO;
-            _validator = validator;
             _validationRulesForInsert = validationRulesForInsert;
             _validationRulesForUpdate = validationRulesForUpdate;
         }
@@ -57,9 +51,19 @@ namespace OrderTestWebApp.Controllers
             _logger.LogDebug($"Received list of orders with {listOfOrders.Count()} items");
             return Ok(result);
         }
+        [HttpGet("getOrderById")]
+        public async Task<ActionResult<OrderDTO>> GetOrderByIdAsync(string id)
+        {
+            var orderModel = await _orderService.GetOrderByIdAsync(id);
+            var orderDTO = _mapper.Map<OrderDTO>(orderModel);
+
+            _logger.LogDebug($"Received   = {orderDTO};");
+            return Ok(orderDTO);
+        }
+
 
         [HttpGet("getOrdersByType")]
-        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByOrderTypeAsync(OrderType orderType)
+        public async Task<ActionResult<IEnumerable<OrderDTO>>> GetOrdersByOrderTypeAsync(string orderType)
         {
             var ordersList = await _orderService.GetOrdersByOrderTypeAsync(orderType);
             var result = _mapper.Map<IEnumerable<OrderDTO>>(ordersList);

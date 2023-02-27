@@ -44,6 +44,16 @@ namespace OrderTestWebApp
             services.AddControllers();
             services.AddValidatorsFromAssemblyContaining<OrderValidator>();
             services.AddValidatorsFromAssemblyContaining<OrderValidatorDTO>();
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "AllowOrigin",
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:44351", "http://localhost:4200")
+                                            .AllowAnyHeader()
+                                            .AllowAnyMethod();
+                    });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderTestWebApp", Version = "v1" });
@@ -60,7 +70,13 @@ namespace OrderTestWebApp
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OrderTestWebApp v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseCors(builder =>
+            {
+                builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+            });
 
             app.UseRouting();
 

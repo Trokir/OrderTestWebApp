@@ -10,7 +10,7 @@ namespace OrderTestWebApp.Mappers
         public AutoMapperProfile()
         {
             _ = CreateMap<Order, OrderDTO>()
-                .ForMember(x => x.Type, opt => opt.MapFrom(t => t.Type.ToString()));
+                .ForMember(x => x.OrderType, opt => opt.MapFrom(t => t.OrderType.ToString()));
             _ = CreateMap<OrderDTO, Order>();
             _ = CreateMap<OrderInsertDTO, Order>();
             _ = CreateMap<Order, OrderInsertDTO>();

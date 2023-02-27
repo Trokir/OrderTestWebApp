@@ -31,15 +31,19 @@ namespace OrderTestWebApp.Services
             {
                 throw new ArgumentNullException(nameof(order));
             }
+            if (Enum.TryParse(order.OrderType, true, out OrderType type))
+            {
                 var newOrder = new Order()
                 {
                     CreatedByUserName = order.CreatedByUserName,
                     CreatedDate = DateTime.Now,
-                    Type = order.Type,
+                    OrderType = type,
                     CustomerName = order.CustomerName
                 };
                 await _dbContext.Orders.AddAsync(newOrder);
                 await _dbContext.SaveChangesAsync();
+            }
+            else throw new InvalidCastException("Can't parse enum");  
 
         }
 
@@ -61,10 +65,22 @@ namespace OrderTestWebApp.Services
             }
         }
 
-        public async Task<IEnumerable<Order>> GetOrdersByOrderTypeAsync(OrderType orderType)
+        public async Task<IEnumerable<Order>> GetOrdersByOrderTypeAsync(string orderType)
         {
-            var ordersList = await _dbContext.Orders.Where(x => x.Type.Equals(orderType)).ToListAsync();
-            return ordersList;
+            if (Enum.TryParse(orderType, true, out OrderType type))
+            {
+                var ordersList = await _dbContext.Orders.Where(x => x.OrderType.Equals(type)).ToListAsync();
+                return ordersList;
+            }
+            return default;
+        }
+        public async Task<Order> GetOrderByIdAsync(string id)
+        {
+            if (Guid.TryParse(id,out var orderId))
+            {
+                return await _dbContext.Orders.FirstOrDefaultAsync(z => z.Id.Equals(orderId));
+            }
+            return default;
         }
 
         public async Task<IEnumerable<Order>> GetOrdersListAsync()
@@ -83,7 +99,7 @@ namespace OrderTestWebApp.Services
             var currentOrder = await _dbContext.Orders.SingleOrDefaultAsync(x => x.Id == order.Id);
             if (currentOrder != null)
             {
-                currentOrder.Type = order.Type;
+                currentOrder.OrderType = order.OrderType;
                 currentOrder.CreatedByUserName = order.CreatedByUserName;
                 currentOrder.CustomerName = order.CustomerName;
                 await _dbContext.SaveChangesAsync();

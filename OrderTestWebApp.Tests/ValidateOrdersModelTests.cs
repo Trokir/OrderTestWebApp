@@ -20,7 +20,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CustomerName = string.Empty,
                 CreatedByUserName = "John",
                 CreatedDate = DateTime.Now
@@ -34,7 +34,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CustomerName = "s",
                 CreatedByUserName = "John",
                 CreatedDate = DateTime.Now
@@ -48,7 +48,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CustomerName = "sdddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddddddddddd" + "",
                 CreatedByUserName = "John",
                 CreatedDate = DateTime.Now
@@ -62,7 +62,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CustomerName = "Bill",
                 CreatedByUserName = "s",
                 CreatedDate = DateTime.Now
@@ -76,7 +76,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CreatedByUserName = "sdddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddddddddd" + "dddddddddddddddddddddddddddddddddddddddddddd" + "ddddddddddddddddddddddddddddddddddddddddddddd" + "",
                 CustomerName = "John",
                 CreatedDate = DateTime.Now
@@ -90,7 +90,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CreatedByUserName = "Bill",
                 CreatedDate = DateTime.Now.AddDays(1)
             };
@@ -103,7 +103,7 @@ namespace OrderTestWebApp.Tests
             Order order = new()
             {
                 Id = Guid.NewGuid(),
-                Type = Enums.OrderType.SaleOrder,
+                OrderType = Enums.OrderType.SaleOrder,
                 CreatedByUserName = "Bill",
                 CreatedDate = DateTime.Now.AddDays(-1)
             };
