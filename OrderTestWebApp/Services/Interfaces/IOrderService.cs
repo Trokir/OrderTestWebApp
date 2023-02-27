@@ -12,8 +12,8 @@ namespace OrderTestWebApp.Services.Interfaces
     {
         Task<IEnumerable<Order>> GetOrdersListAsync();
         Task<IEnumerable<Order>> GetOrdersByOrderTypeAsync(OrderType type);
-        Task<OrderDTO> UpdateOrderAsync(Order order);
+        Task<OrderUpdateDTO> UpdateOrderAsync(OrderUpdateDTO order);
         Task DeleteOrder(Guid id);
-        Task AddNewOrderAsync(OrderDTO order);
+        Task AddNewOrderAsync(OrderInsertDTO order);
     }
 }

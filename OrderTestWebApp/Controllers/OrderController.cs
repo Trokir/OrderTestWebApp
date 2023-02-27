@@ -27,18 +27,24 @@ namespace OrderTestWebApp.Controllers
         private readonly ILogger<Order> _logger;
         private readonly OrderValidator _validator;
         private readonly OrderValidatorDTO _validatorDTO;
+        private readonly OrderInsertValidator _validationRulesForInsert;
+        private readonly OrderUpdateValidator _validationRulesForUpdate;
         public OrderController(
             IOrderService orderService,
             IMapper mapper,
             ILogger<Order> logger,
             OrderValidatorDTO validatorDTO,
-            OrderValidator validator)
+            OrderValidator validator,
+            OrderInsertValidator validationRulesForInsert,
+            OrderUpdateValidator validationRulesForUpdate)
         {
             _mapper = mapper;
             _orderService = orderService;
             _logger = logger;
             _validatorDTO = validatorDTO;
             _validator = validator;
+            _validationRulesForInsert = validationRulesForInsert;
+            _validationRulesForUpdate = validationRulesForUpdate;
         }
 
         [HttpGet("getAll")]
@@ -64,9 +70,9 @@ namespace OrderTestWebApp.Controllers
         [HttpPost("addNew")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult> AddNewOrderAsync(OrderDTO order)
+        public async Task<ActionResult> AddNewOrderAsync(OrderInsertDTO order)
         {
-            var validationResult = _validatorDTO.Validate(order);
+            var validationResult = _validationRulesForInsert.Validate(order);
             if (validationResult.IsValid)
             {
                 await _orderService.AddNewOrderAsync(order);
@@ -81,10 +87,10 @@ namespace OrderTestWebApp.Controllers
         }
 
         [HttpPut("updateOrder")]
-        public async Task<ActionResult<OrderDTO>> UpdateOrderAsync([FromBody] Order order)
+        public async Task<ActionResult<OrderUpdateDTO>> UpdateOrderAsync([FromBody] OrderUpdateDTO order)
         {
-            var orderDto = _mapper.Map<OrderDTO>(order);
-           var validationResult = _validatorDTO.Validate(orderDto);
+            var orderDto = _mapper.Map<OrderUpdateDTO>(order);
+           var validationResult = _validationRulesForUpdate.Validate(orderDto);
             if (validationResult.IsValid)
             {
                 var result = await _orderService.UpdateOrderAsync(order);

@@ -25,22 +25,21 @@ namespace OrderTestWebApp.Services
             _mapper = mapper;
         }
 
-        public async Task AddNewOrderAsync(OrderDTO order)
+        public async Task AddNewOrderAsync(OrderInsertDTO order)
         {
             if (order is null)
             {
                 throw new ArgumentNullException(nameof(order));
             }
-
-            var newOrder = new Order()
-            {
-                CreatedByUserName = order.CreatedByUserName,
-                CreatedDate = order.CreatedDate,
-                Type = order.Type,
-                CustomerName = order.CustomerName
-            };
-            await _dbContext.Orders.AddAsync(newOrder);
-            await _dbContext.SaveChangesAsync();
+                var newOrder = new Order()
+                {
+                    CreatedByUserName = order.CreatedByUserName,
+                    CreatedDate = DateTime.Now,
+                    Type = order.Type,
+                    CustomerName = order.CustomerName
+                };
+                await _dbContext.Orders.AddAsync(newOrder);
+                await _dbContext.SaveChangesAsync();
 
         }
 
@@ -74,7 +73,7 @@ namespace OrderTestWebApp.Services
             return ordersList;
         }
 
-        public async Task<OrderDTO> UpdateOrderAsync(Order order)
+        public async Task<OrderUpdateDTO> UpdateOrderAsync(OrderUpdateDTO order)
         {
             if (order is null)
             {
@@ -85,11 +84,10 @@ namespace OrderTestWebApp.Services
             if (currentOrder != null)
             {
                 currentOrder.Type = order.Type;
-                currentOrder.CreatedDate = order.CreatedDate;
                 currentOrder.CreatedByUserName = order.CreatedByUserName;
                 currentOrder.CustomerName = order.CustomerName;
                 await _dbContext.SaveChangesAsync();
-                var dto = _mapper.Map<OrderDTO>(order);
+                var dto = _mapper.Map<OrderUpdateDTO>(order);
                 return dto;
             }
 

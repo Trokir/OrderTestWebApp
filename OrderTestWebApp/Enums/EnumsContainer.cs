@@ -2,10 +2,10 @@
 {
     public enum OrderType
     {
-        Standart,
-        SaleOrder,
-        PurchaseOrder,
-        TransferOrder,
-        ReturnOrder
+        Standart =0,
+        SaleOrder =1,
+        PurchaseOrder=2,
+        TransferOrder=3,
+        ReturnOrder=4
     }
 }
